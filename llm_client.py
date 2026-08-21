@@ -15,7 +15,7 @@ import json
 from google import genai
 from google.genai import types
 
-MODEL = "gemini-3.7-flash"
+MODEL = "gemini-3.5-flash-lite"
 
 _client = genai.Client()
 
