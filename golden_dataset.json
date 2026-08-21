@@ -1,0 +1,62 @@
+[
+  {
+    "id": "gd-001",
+    "question": "What causes BGP route flapping?",
+    "expected_answerable": true,
+    "notes": "Should mention unstable links, hardware faults, misconfigured filters, or software bugs."
+  },
+  {
+    "id": "gd-002",
+    "question": "How does route dampening work?",
+    "expected_answerable": true,
+    "notes": "Should mention penalty, suppress threshold, reuse threshold."
+  },
+  {
+    "id": "gd-003",
+    "question": "What usually causes IKE Phase 1 to fail?",
+    "expected_answerable": true,
+    "notes": "Should mention mismatched pre-shared keys, algorithms, or DH groups."
+  },
+  {
+    "id": "gd-004",
+    "question": "An IPsec tunnel is up but no traffic is passing through it. What's likely wrong?",
+    "expected_answerable": true,
+    "notes": "Should mention routing/firewall, not IPsec negotiation itself."
+  },
+  {
+    "id": "gd-005",
+    "question": "What triggers dual-SIM failover to the secondary SIM?",
+    "expected_answerable": true,
+    "notes": "Should mention signal loss, failed connectivity checks, or data plan exhaustion."
+  },
+  {
+    "id": "gd-006",
+    "question": "Why might a device stay on the secondary SIM even after the primary recovers?",
+    "expected_answerable": true,
+    "notes": "Should mention dwell time or a still-failing connectivity check."
+  },
+  {
+    "id": "gd-007",
+    "question": "What's the tradeoff between SNMP polling and streaming telemetry?",
+    "expected_answerable": true,
+    "notes": "Should mention polling latency vs streaming complexity/near real time."
+  },
+  {
+    "id": "gd-008",
+    "question": "What is alert fatigue and how is it usually mitigated?",
+    "expected_answerable": true,
+    "notes": "Should mention tiered alerting."
+  },
+  {
+    "id": "gd-009",
+    "question": "What is the maximum recommended MTU for a GRE tunnel over a satellite link?",
+    "expected_answerable": false,
+    "notes": "TRAP CASE: not covered anywhere in the corpus. Correct behavior is to decline, not guess a number."
+  },
+  {
+    "id": "gd-010",
+    "question": "Which vendor's routers support BGP route dampening?",
+    "expected_answerable": false,
+    "notes": "TRAP CASE: corpus explains the mechanism but never names a vendor. Correct behavior is to decline."
+  }
+]
