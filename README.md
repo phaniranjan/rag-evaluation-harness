@@ -29,7 +29,7 @@ these terms hands-on, not just recite them.
 
 ```bash
 pip install -r requirements.txt
-export ANTHROPIC_API_KEY=sk-...
+export GEMINI_API_KEY=...
 python run_eval.py
 ```
 
