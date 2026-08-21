@@ -1,24 +1,23 @@
 """
-Thin wrapper around the Anthropic API for two roles:
+Thin wrapper around the Gemini API for two roles:
 
   generate_answer(question, context_chunks) -> the "system under test" answer,
       grounded only in the retrieved context (this is the RAG generation step).
 
   judge_answer(question, answer, context_chunks) -> a SECOND LLM call that scores
       the first answer. This is the "LLM-as-a-judge" pattern: one model produces
-      an answer, a separate call evaluates it against a rubric, independent of
-      whether a human ever reads the raw output.
+      an answer, a separate call evaluates it.
 
-Requires ANTHROPIC_API_KEY to be set in the environment.
+Requires GEMINI_API_KEY to be set in the environment.
 """
 
 import json
-import os
-import anthropic
+from google import genai
+from google.genai import types
 
-MODEL = "claude-sonnet-4-6"
+MODEL = "gemini-3.7-flash"
 
-_client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+_client = genai.Client()
 
 
 def _format_context(chunks) -> str:
@@ -36,13 +35,15 @@ def generate_answer(question: str, chunks) -> str:
         "use outside knowledge, and do not guess."
     )
     prompt = f"Context:\n{context}\n\nQuestion: {question}"
-    resp = _client.messages.create(
+    resp = _client.models.generate_content(
         model=MODEL,
-        max_tokens=400,
-        system=system,
-        messages=[{"role": "user", "content": prompt}],
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            system_instruction=system,
+            max_output_tokens=400,
+        ),
     )
-    return resp.content[0].text.strip()
+    return resp.text.strip()
 
 
 JUDGE_SYSTEM = """You are an evaluator scoring a RAG (retrieval-augmented generation) system's
@@ -72,13 +73,15 @@ def judge_answer(question: str, answer: str, chunks) -> dict:
         f"Context:\n{context}\n\nQuestion: {question}\n\nSystem's answer: {answer}\n\n"
         "Score this answer per the rubric."
     )
-    resp = _client.messages.create(
+    resp = _client.models.generate_content(
         model=MODEL,
-        max_tokens=300,
-        system=JUDGE_SYSTEM,
-        messages=[{"role": "user", "content": prompt}],
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            system_instruction=JUDGE_SYSTEM,
+            max_output_tokens=300,
+        ),
     )
-    raw = resp.content[0].text.strip()
+    raw = resp.text.strip()
     raw = raw.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
     try:
         return json.loads(raw)

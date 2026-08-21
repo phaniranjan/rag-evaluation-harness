@@ -9,7 +9,7 @@ rate against a threshold, the same "tiered gating on distributions, not individu
 runs" idea used for evaluating non-deterministic LLM outputs.
 
 Usage:
-    export ANTHROPIC_API_KEY=sk-...
+    export GEMINI_API_KEY=...
     python run_eval.py
 """
 
@@ -24,8 +24,8 @@ GROUNDEDNESS_THRESHOLD = 0.7
 
 
 def main():
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("ERROR: set ANTHROPIC_API_KEY before running.", file=sys.stderr)
+    if not os.environ.get("GEMINI_API_KEY"):
+        print("ERROR: set GEMINI_API_KEY before running.", file=sys.stderr)
         sys.exit(1)
 
     base_dir = os.path.dirname(__file__)
